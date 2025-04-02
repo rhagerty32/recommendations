@@ -9,7 +9,8 @@ const App = () => {
     });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const apiUrl = import.meta.env.VITE_API_URL;
+
+    const apiUrl = import.meta.env.VITE_API_URL; // Assuming VITE_API_URL is set up correctly
     const apiKey = import.meta.env.VITE_API_KEY;
 
     const fetchRecommendations = async () => {
@@ -17,7 +18,7 @@ const App = () => {
         if (!id) {
             setError("Please enter a userID or itemID.");
             return;
-        };
+        }
         setLoading(true);
         setError(null);
 
@@ -35,35 +36,35 @@ const App = () => {
         };
 
         try {
-            // Wait for all three API requests to complete
-            const [collabRes, contentRes, azureRes] = await Promise.all([
-                fetch(`${apiUrl}/score`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${apiKey}`,
-                    },
-                    body: JSON.stringify(payload),
-                })
-            ]);
+            // Make the API requests
+            const response = await fetch(`${apiUrl}/score`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${apiKey}`,
+                },
+                body: JSON.stringify(payload),
+            });
 
-            // Handle the responses and parse JSON
-            const [collabData, contentData, azureData] = await Promise.all([
-                collabRes.json(),
-                contentRes.json(),
-                azureRes.json(),
-            ]);
+            // Check for a successful response (status code 200)
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
 
-            // Assuming the API responses return an array of items
+            // Parse JSON response
+            const data = await response.json();
+
+            // Assuming the API returns multiple categories like 'collaborative', 'content', and 'azure'
             setRecommendations({
-                collaborative: collabData.items || [],
-                content: contentData.items || [],
-                azure: azureData.items || [],
+                collaborative: data.collaborative || [],
+                content: data.content || [],
+                azure: data.azure || [],
             });
         } catch (err) {
-            setError("Failed to fetch recommendations.");
+            setError(`Failed to fetch recommendations: ${err.message}`);
             console.error(err);
         }
+
         setLoading(false);
     };
 
