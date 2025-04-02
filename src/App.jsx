@@ -37,21 +37,14 @@ const App = () => {
 
         try {
             // Make the API requests
-            const response = await fetch(`${apiUrl}/score`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${apiKey}`,
-                },
+            const response = await fetch('http://localhost:5000/score', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload),
             });
 
-            // Check for a successful response (status code 200)
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
-            // Parse JSON response
             const data = await response.json();
 
             // Assuming the API returns multiple categories like 'collaborative', 'content', and 'azure'
