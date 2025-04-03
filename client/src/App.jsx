@@ -23,7 +23,7 @@ const App = () => {
             "Inputs": {
                 "input1": [
                     {
-                        "personId": -1.1505912292503186e+18,
+                        "personId": -2871288807409592.0,
                         "contentId": 0,
                         "rating": 0
                     }

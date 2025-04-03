@@ -31,8 +31,8 @@ def score():
         return jsonify({"error": "Invalid input format", "details": str(e)}), 400
 
     # Azure ML settings
-    azure_url = 'http://2d61ec11-2627-45cc-bab4-bbb5977b8b03.eastus2.azurecontainer.io/score'  # Adjust to correct scoring URL
-    azure_api_key = 'qdhEl660d6kRbb3joYx9cqQ4WxXyUNAu'
+    azure_url = 'http://1c34af2a-60de-4d1d-9101-7ccca2825e0f.eastus2.azurecontainer.io/score'  # Adjust to correct scoring URL
+    azure_api_key = 't6DQEVBHGxabbelGBY3yiaKKDL8fpkix'
 
     # Assuming you have a dictionary or DataFrame mapping personId to feature vectors
     # user_id = input_data["Inputs"]["input1"][0]["personId"]
